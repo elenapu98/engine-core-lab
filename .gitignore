@@ -1,0 +1,5 @@
+# JetBrains / IntelliJ / CLion IDE settings
+.idea/
+*.iws
+*.iml
+*.ipr
