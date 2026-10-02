@@ -12,45 +12,50 @@ void main() {
 }`);
 gl.compileShader(vs);
 
-// Fragment Shader (Test Shader)
-const fs = gl.createShader(gl.FRAGMENT_SHADER);
-gl.shaderSource(fs, `#version 300 es
-precision highp float;
-out vec4 fragColor;
-void main() {
-  fragColor = vec4(0.0, 1.0, 0.0, 1.0); // RGBA
-}`);
-gl.compileShader(fs);
+// Load Fragment Shader from disk
+fetch('../shaders/debug/plain_color.frag')
+    .then(res => res.text())
+    .then(shaderSource => {
+        // Fragment Shader (Test Shader)
+        const fs = gl.createShader(gl.FRAGMENT_SHADER);
+        gl.shaderSource(fs, shaderSource);
+        gl.compileShader(fs);
 
-// Link Program
-const program = gl.createProgram();
-gl.attachShader(program, vs);
-gl.attachShader(program, fs);
-gl.linkProgram(program);
+        if (!gl.getShaderParameter(fs, gl.COMPILE_STATUS)) {
+            console.error('FS compile error:', gl.getShaderInfoLog(fs));
+            return;
+        }
 
-// Quad Geometry Buffer & VAO
-const positionBuffer = gl.createBuffer();
-gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, -1,1, 1,-1, 1,1]), gl.STATIC_DRAW);
+        // Link Program
+        const program = gl.createProgram();
+        gl.attachShader(program, vs);
+        gl.attachShader(program, fs);
+        gl.linkProgram(program);
 
-const vao = gl.createVertexArray();
-gl.bindVertexArray(vao);
-const posLoc = gl.getAttribLocation(program, 'a_position');
-gl.enableVertexAttribArray(posLoc);
-gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
+        // Quad Geometry Buffer & VAO
+        const positionBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, -1,1, 1,-1, 1,1]), gl.STATIC_DRAW);
 
-function render() {
-    if (canvas.width !== canvas.clientWidth || canvas.height !== canvas.clientHeight) {
-        canvas.width = canvas.clientWidth;
-        canvas.height = canvas.clientHeight;
-        gl.viewport(0, 0, canvas.width, canvas.height);
-    }
+        const vao = gl.createVertexArray();
+        gl.bindVertexArray(vao);
+        const posLoc = gl.getAttribLocation(program, 'a_position');
+        gl.enableVertexAttribArray(posLoc);
+        gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
 
-    gl.useProgram(program);
-    gl.bindVertexArray(vao);
-    gl.drawArrays(gl.TRIANGLES, 0, 6);
+        function render() {
+            if (canvas.width !== canvas.clientWidth || canvas.height !== canvas.clientHeight) {
+                canvas.width = canvas.clientWidth;
+                canvas.height = canvas.clientHeight;
+                gl.viewport(0, 0, canvas.width, canvas.height);
+            }
 
-    requestAnimationFrame(render);
-}
+            gl.useProgram(program);
+            gl.bindVertexArray(vao);
+            gl.drawArrays(gl.TRIANGLES, 0, 6);
 
-requestAnimationFrame(render);
+            requestAnimationFrame(render);
+        }
+
+        requestAnimationFrame(render);
+    });
