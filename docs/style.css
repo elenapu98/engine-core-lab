@@ -11,12 +11,28 @@ body, html {
     background-color: #0d0d0d;
 }
 
-#canvas-container {
+.app-layout {
+    display: flex;
     width: 100vw;
     height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    align-items: start;
+}
+
+#sidebar {
+    background: #1f1f1f;
+    width: 200px;
+    height: 100vh;
+    flex-shrink: 0; /* Prevent shrinking */
+}
+
+#editor {
+    flex: 3; /* ~60% of remaining space */
+    height: 100vh;
+}
+
+#canvas-container {
+    flex: 2; /* ~40% of remaining space */
+    aspect-ratio: 1 / 1; /* Force square aspect ratio */
 }
 
 canvas {
