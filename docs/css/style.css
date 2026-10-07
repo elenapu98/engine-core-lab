@@ -8,31 +8,39 @@ body, html {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background-color: #0d0d0d;
+    background-color: #000000;
 }
 
 .app-layout {
     display: flex;
     width: 100vw;
     height: 100vh;
-    align-items: start;
+    align-items: stretch;
 }
 
 #sidebar {
     background: #1f1f1f;
     width: 200px;
-    height: 100vh;
+    height: 100%;
     flex-shrink: 0; /* Prevent shrinking */
 }
 
 #editor {
     flex: 3; /* ~60% of remaining space */
-    height: 100vh;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+#editor .cm-editor {
+    height: 100%;
 }
 
 #canvas-container {
     flex: 2; /* ~40% of remaining space */
+    width: 100%;
     aspect-ratio: 1 / 1; /* Force square aspect ratio */
+    align-self: start; /* Align container to the top */
 }
 
 canvas {

@@ -4,20 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shader Lab Visualizer</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<div class="app-layout">
-    <div id="sidebar">
+    <div class="app-layout">
+        <div id="sidebar"></div>
 
-    </div>
-    <div id="editor">
+        <div id="editor" class="cm-editor"></div>
 
+        <div id="canvas-container">
+            <canvas id="gl-canvas"></canvas>
+        </div>
     </div>
-    <div id="canvas-container">
-        <canvas id="gl-canvas"></canvas>
-    </div>
-</div>
-<script src="main.js"></script>
+
+    <script type="module" src="js/app.js"></script>
 </body>
 </html>
