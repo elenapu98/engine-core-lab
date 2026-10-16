@@ -1,9 +1,11 @@
 # engine-core-lab
+
 Modular C++ game engine, GLSL shader research, and WebGL visualization tools
 
 ## 📐 Layout & Shaders Architecture
 
-To ensure cross-platform code reuse (WebGL2 / C++ Native) through a **Single Source of Truth**, all `.glsl` / `.frag` / `.vert` assets are decoupled from host runtime code and structured by domain and operational stage:
+To ensure cross-platform code reuse (WebGL2 / C++ Native) through a **Single Source of Truth**, all `.glsl` / `.frag` /
+`.vert` assets are decoupled from host runtime code and structured by domain and operational stage:
 
 ```text
 shaders/

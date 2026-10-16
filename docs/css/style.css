@@ -30,21 +30,61 @@ body, html {
     height: 100%;
     overflow: hidden;
     position: relative;
+    padding-right: 50px;
 }
 
 #editor .cm-editor {
     height: 100%;
 }
 
-#canvas-container {
+#preview-pane {
     flex: 2; /* ~40% of remaining space */
+    display: flex;
+    flex-direction: column;
+    align-self: start; /* Align container to the top */
+    padding-top: 100px;
+    padding-right: 100px;
+}
+
+#canvas-container {
     width: 100%;
     aspect-ratio: 1 / 1; /* Force square aspect ratio */
-    align-self: start; /* Align container to the top */
 }
 
 canvas {
     width: 100%;
     height: 100%;
     display: block;
+}
+
+#controls-container {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+button {
+    background-color: #141414;
+    color: #f8f8f2;
+    border: 1px solid #333333;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-family: monospace;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 8px 16px;
+    cursor: pointer;
+    min-width: 160px;
+    text-align: center;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+button:hover {
+    background-color: #222222;
+    border-color: #555555;
+}
+
+button:active {
+    background-color: #0a0a0a;
 }

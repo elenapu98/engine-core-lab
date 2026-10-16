@@ -12,11 +12,18 @@
 
         <div id="editor" class="cm-editor"></div>
 
-        <div id="canvas-container">
-            <canvas id="gl-canvas"></canvas>
+        <div id="preview-pane">
+            <div id="canvas-container">
+                <canvas id="gl-canvas"></canvas>
+            </div>
+
+            <div id="controls-container">
+                <button id="btn_reset">Reset</button>
+            </div>
         </div>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script type="module" src="js/app.js"></script>
 </body>
 </html>
