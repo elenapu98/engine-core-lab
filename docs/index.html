@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shader Lab Visualizer</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/code_mirror.css">
 </head>
 <body>
     <div class="app-layout">
@@ -19,7 +20,14 @@
 
             <div id="controls-container">
                 <button id="btn_reset">Reset</button>
+                <button id="btn_run">Build & Run</button>
             </div>
+        </div>
+    </div>
+
+    <div id="overlay" class="hidden">
+        <div id="log-modal">
+            <pre id="log-content">Aquí irán los errores de compilación...</pre>
         </div>
     </div>
 

@@ -19,19 +19,23 @@ export function initRenderer(canvasId, defaultShaderCode) {
          * @param {string} shaderSource - GLSL fragment shader source.
          */
         render(shaderSource) {
-            if (engine && engine.updateShader) {
-                engine.updateShader(shaderSource);
-            }
+            engine?.updateShader?.(shaderSource);
         },
 
         /**
          * Handles window resize events for the active engine.
          */
         resize() {
-            if (engine && engine.resize) {
-                engine.resize();
-            }
-        }
+            engine?.resize?.();
+        },
+
+        /**
+         * Retrieves the shader compilation logs from the active graphics engine.
+         * @returns {string|undefined} The error log string.
+         */
+        getLastError() {
+            return engine?.getLastError?.();
+        },
     };
 
     return renderer;
@@ -44,5 +48,13 @@ export function initRenderer(canvasId, defaultShaderCode) {
  * @returns {Object} Renderer interface handle.
  */
 export function reloadRenderer(shaderCode) {
-    renderer.render(shaderCode);
+    renderer?.render?.(shaderCode);
+}
+
+/**
+ * Retrieves the latest shader compilation error logs.
+ * @returns {string|undefined} The raw error log string.
+ */
+export function loadLogs() {
+    return renderer?.getLastError?.();
 }

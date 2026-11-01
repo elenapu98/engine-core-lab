@@ -1,6 +1,8 @@
 import { basicSetup, EditorView } from "https://esm.sh/codemirror"
 import { EditorState } from "https://esm.sh/@codemirror/state";
 import { cpp } from "https://esm.sh/@codemirror/lang-cpp";
+import { linter, lintGutter, lintKeymap, setDiagnostics } from "https://esm.sh/@codemirror/lint";
+import { keymap } from "https://esm.sh/@codemirror/view";
 
 const DEFAULT_COMMENT = "// Write your GLSL shader here\n";
 let editorView;
@@ -12,7 +14,7 @@ let editorView;
  * @param {string} shaderCode
  * @returns {EditorView}
  */
-export function initEditor(containerId, shaderCode) {
+export function initEditor(containerId, shaderCode = '') {
     const containerElement = document.getElementById(containerId);
 
     const state = EditorState.create({
@@ -50,7 +52,10 @@ export function initEditor(containerId, shaderCode) {
                     overflow: "auto",
                     fontFamily: "monospace"
                 }
-            }, { dark: true })
+            }, { dark: true }),
+            linter(),
+            lintGutter(),
+            keymap.of(lintKeymap)
         ]
     });
 
@@ -84,4 +89,32 @@ export function loadCode(shaderCode) {
  */
 export function loadDefaultCode(shaderCode) {
     loadCode(`${DEFAULT_COMMENT}${shaderCode}`);
+}
+
+/**
+ * Set linter diagnostics.
+ * @param {EditorView} view
+ * @param {number} lineNumber - (0-based)
+ * @param {string} severity
+ * @param {string} msg
+ */
+export function updateLinterDiagnostics(view, lineNumber = null, severity = null, msg= null) {
+    if (!view) return;
+
+    if (lineNumber === null || lineNumber === undefined) {
+        view.dispatch(setDiagnostics(view.state, []));
+        return;
+    }
+
+    // CodeMirror 6 (1-based index)
+    const line = view.state.doc.line(Math.max(1, lineNumber + 1));
+
+    const diagnostics = [{
+        from: line.from,
+        to: line.to,
+        severity: severity ?? "error",
+        message: msg ?? "Syntax error in GLSL source"
+    }];
+
+    view.dispatch(setDiagnostics(view.state, diagnostics));
 }

@@ -29,6 +29,11 @@ The web application is built with native ES modules and zero heavy frameworks, e
 
 ## 🕹️ Viewer User Guide
 
+**Shader Lab Visualizer**: [https://elenapu98.github.io/engine-core-lab/docs/](https://elenapu98.github.io/engine-core-lab/docs/)
+
 * **Editing Shaders**: The left panel contains the CodeMirror editor where you can view and modify raw GLSL code.
+* **Error Diagnostics & Modal Overlay**:
+  * **Inline Errors**: GLSL compilation and syntax errors are mapped to line numbers and displayed as markers in the editor gutter. Clicking an error marker opens a high-contrast modal overlay with the detailed WebGL error log.
+  * **Fatal Startup Errors**: If the default shader asset fails to fetch or initialize at boot, the application gracefully captures the exception and presents the full diagnostic trace directly inside the modal overlay.
 * **Resetting State**: Click the **Reset** button to reload the default initial shader into the editor and immediately re-render the canvas with this default code.
 * **Canvas Output**: The right panel displays the rendered GLSL output in real-time within the canvas boundaries defined by the layout. (The default initial shader outputs a solid green screen to confirm that the pipeline compiled successfully).

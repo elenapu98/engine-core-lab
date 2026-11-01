@@ -42,7 +42,5 @@ export async function loadShaderFile(filePath) {
         throw new Error(`Failed to load file: ${filePath}`);
     }
 
-    const fileContent = await response.text();
-
-    return fileContent;
+    return await response.text();
 }

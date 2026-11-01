@@ -3,3 +3,7 @@
 *.iws
 *.iml
 *.ipr
+
+# CLine (IntelliJ Plugin)
+*.clineignore
+*.clinerules

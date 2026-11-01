@@ -1,3 +1,14 @@
+:root {
+    --black: #000000;
+    --gray-scale-black: #0a0a0a;
+    --gray-scale-deep-dark-gray: #141414;
+    --gray: #1a1a1a;
+    --gray-scale-dark-gray: #222222;
+    --gray-scale-mid-gray: #333333;
+    --gray-scale-light-gray: #555555;
+    --gray-scale-white: #d4d4d4;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -7,21 +18,20 @@
 body, html {
     width: 100%;
     height: 100%;
-    overflow: hidden;
-    background-color: #000000;
+    background-color: var(--black);
 }
 
 .app-layout {
     display: flex;
     width: 100vw;
     height: 100vh;
-    align-items: stretch;
+    min-height: 600px;
+    align-items: stretch; /* Ensures all top-level columns stretch vertically */
 }
 
 #sidebar {
-    background: #1f1f1f;
+    background: var(--gray);
     width: 200px;
-    height: 100%;
     flex-shrink: 0; /* Prevent shrinking */
 }
 
@@ -39,9 +49,10 @@ body, html {
 
 #preview-pane {
     flex: 2; /* ~40% of remaining space */
+    min-width: 0; /* Allows the flex container to calculate relative dimensions without overflowing */
+    height: 100%;
     display: flex;
     flex-direction: column;
-    align-self: start; /* Align container to the top */
     padding-top: 100px;
     padding-right: 100px;
 }
@@ -53,20 +64,33 @@ body, html {
 
 canvas {
     width: 100%;
-    height: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1; /* Force square aspect ratio */
     display: block;
 }
 
 #controls-container {
     display: flex;
-    gap: 10px;
-    margin-top: 20px;
+    justify-content: center; /* Center buttons horizontally */
+    align-items: center;
+    gap: 12px; /* Consistent spacing between buttons */
+    width: 100%;
+    flex: 1;
+}
+
+#controls-container button {
+    flex: 1 1 0px;           /* Force equal width distribution */
+    max-width: 160px;        /* Prevent excessive stretching on wide screens */
+    min-width: fit-content;  /* Prevent text wrapping */
+    white-space: nowrap;
+    text-align: center;
+    padding: 10px 16px;
 }
 
 button {
-    background-color: #141414;
-    color: #f8f8f2;
-    border: 1px solid #333333;
+    background-color: var(--gray-scale-deep-dark-gray);
+    color: var(--gray-scale-white);
+    border: 1px solid var(--gray-scale-mid-gray);
     border-radius: 4px;
     font-size: 0.9rem;
     font-family: monospace;
@@ -81,10 +105,41 @@ button {
 }
 
 button:hover {
-    background-color: #222222;
-    border-color: #555555;
+    background-color: var(--gray-scale-dark-gray);
+    border-color: var(--gray-scale-light-gray);
 }
 
 button:active {
-    background-color: #0a0a0a;
+    background-color: var(--gray-scale-black);
+}
+
+#overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    inset: 0;
+    background: rgb(from var(--black) r g b / 0.8);
+}
+
+#overlay.hidden {
+    display: none;
+}
+
+#overlay #log-modal {
+    background: var(--gray-scale-deep-dark-gray);
+    color: var(--gray-scale-white);
+    height: 500px;
+    max-height: 80vh;
+    min-height: 100px;
+    width: 1200px;
+    max-width: 80vw;
+    min-width: 300px;
+    padding: 20px;
+    overflow: auto;
+}
+
+#overlay #log-modal pre {
+    white-space: pre;
+    margin: 0;
 }

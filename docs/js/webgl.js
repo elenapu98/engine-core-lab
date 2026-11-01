@@ -6,6 +6,8 @@
  * @returns {Object|null} WebGL engine controller interface.
  */
 export function initWebGL(canvasId, defaultShaderCode) {
+    let lastError = null;
+
     const canvas = document.getElementById(canvasId);
     if (!canvas) {
         console.error(`Canvas element with id "${canvasId}" not found.`);
@@ -39,15 +41,17 @@ void main() {
     let currentProgram = null;
 
     function updateShader(shaderSource) {
-        // Fragment Shader (Test Shader)
+        // Fragment Shader
         const fs = gl.createShader(gl.FRAGMENT_SHADER);
         gl.shaderSource(fs, shaderSource);
         gl.compileShader(fs);
 
         if (!gl.getShaderParameter(fs, gl.COMPILE_STATUS)) {
-            console.error('FS compile error:', gl.getShaderInfoLog(fs));
+            const response = gl.getShaderInfoLog(fs);
+            lastError = response;
+            console.error('FS compile error:', response);
             gl.deleteShader(fs);
-            return false;
+            throw new Error(response);
         }
 
         // Link Program
@@ -57,10 +61,12 @@ void main() {
         gl.linkProgram(program);
 
         if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-            console.error('Program link error:', gl.getProgramInfoLog(program));
+            const response = gl.getProgramInfoLog(program);
+            lastError = response;
+            console.error('Program link error:', response);
             gl.deleteProgram(program);
             gl.deleteShader(fs);
-            return false;
+            throw new Error(response);
         }
 
         // If there was a previous program, clean it up
@@ -94,7 +100,6 @@ void main() {
             gl.bindVertexArray(vao);
             gl.drawArrays(gl.TRIANGLES, 0, 6);
         }
-
         requestAnimationFrame(render);
     }
 
@@ -104,6 +109,7 @@ void main() {
     return {
         canvas,
         gl,
-        updateShader
+        updateShader,
+        getLastError: () => lastError
     };
 }
